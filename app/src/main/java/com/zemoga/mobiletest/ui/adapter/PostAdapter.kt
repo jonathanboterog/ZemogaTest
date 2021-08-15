@@ -5,27 +5,27 @@ import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.mobiletest.R
-import com.zemoga.mobiletest.network.restapi.model.Post
+import com.zemoga.mobiletest.persistence.entity.PostEntity
 
 class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
-    private var postList: List<Post> = ArrayList()
+    private var postList: MutableList<PostEntity> = mutableListOf()
     private lateinit var layoutInflater: LayoutInflater
     private var callback: AdapterCallback? = null
     private var clicked = false
 
     interface AdapterCallback {
-        fun onItemClicked(position: Int, post: Post, itemView: View)
+        fun onItemClicked(position: Int, post: PostEntity, itemView: View)
     }
 
-    fun adapterListOptionMenu(postList: List<Post>?, context: Context?, callback: AdapterCallback?){
+    fun adapterListOptionMenu(postList: MutableList<PostEntity>?, context: Context?, callback: AdapterCallback?){
         if (postList != null) {
             this.postList = postList
         }
@@ -50,7 +50,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = postList[position]
         val itemView = holder.itemView
-        holder.bind(post)
+        holder.bind(post, position)
 
         //Avoid multiples clicks over item
         itemView.setOnClickListener {
@@ -70,19 +70,20 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
         private val ivFavorite = view.findViewById(R.id.ivFavorite) as ImageView
         private val tvPost = view.findViewById(R.id.tvPost) as TextView
 
-        fun bind(post: Post){
+        fun bind(post: PostEntity, position: Int){
 
-//            if(post.indicator)
-//                ivIndicator.visibility = VISIBLE
-//            else
-//                ivIndicator.visibility = INVISIBLE
-//
-//            if(post.favorite)
-//                ivFavorite.visibility = VISIBLE
-//            else
-//                ivFavorite.visibility = INVISIBLE
-//
-//            tvPost.text = post.text
+            if(position < 20){
+                ivIndicator.visibility = VISIBLE
+            } else {
+                ivIndicator.visibility = GONE
+            }
+
+            if(post.favorite) {
+                ivFavorite.visibility = VISIBLE
+            } else {
+                ivFavorite.visibility = INVISIBLE
+            }
+
             tvPost.text = post.body
         }
     }

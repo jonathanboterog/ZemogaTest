@@ -6,22 +6,31 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentAllBinding
 import com.zemoga.mobiletest.network.restapi.Resource
-import com.zemoga.mobiletest.network.restapi.model.Post
+import com.zemoga.mobiletest.persistence.DatabaseApp
+import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
 import com.zemoga.mobiletest.ui.vm.AppViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class AllFragment : Fragment(), PostAdapter.AdapterCallback{
 
     private var _binding: FragmentAllBinding? = null
     private val binding get() = _binding!!
-
+    @Inject
+    lateinit var databaseApp: DatabaseApp
     private val adapter : PostAdapter = PostAdapter()
     private val viewModel by activityViewModels<AppViewModel>()
 
@@ -66,7 +75,7 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
         _binding = null
     }
 
-    override fun onItemClicked(position: Int, post: Post, itemView: View) {
+    override fun onItemClicked(position: Int, post: PostEntity, itemView: View) {
         Snackbar.make(itemView, "Selected id = ${post.id}", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
     }

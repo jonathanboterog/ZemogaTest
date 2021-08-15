@@ -24,9 +24,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:contentDescription="@string/content_description"
-            android:padding="17dp"
+            android:padding="5dp"
             android:src="@drawable/ic_indicator"
-            android:layout_weight="0.1"/>
+            android:layout_weight="0.05"/>
 
         <TextView
             android:id="@+id/tvPost"
@@ -36,6 +36,8 @@
             android:gravity="start|center_vertical"
             android:ellipsize="end"
             android:lines="2"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:text="@string/app_name"
             android:textColor="@color/green"
             android:layout_weight="0.8"/>

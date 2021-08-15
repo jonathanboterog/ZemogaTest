@@ -20,4 +20,7 @@ class PostEntity(
     @ColumnInfo(name = "userId")
     var userId : Int = 0,
 
+    @ColumnInfo(name = "favorites")
+    var favorite : Boolean = false,
+
 )

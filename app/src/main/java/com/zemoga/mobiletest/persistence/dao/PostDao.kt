@@ -16,13 +16,13 @@ interface PostDao {
     fun getById(id : Int): PostEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(merchantEntity: PostEntity)
+    fun insert(postEntity: PostEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArray(arrMerchantEntity: MutableList<PostEntity>)
+    fun insertArray(arrPostEntity: MutableList<PostEntity>)
 
     @Delete
-    fun delete(merchantEntity: PostEntity)
+    fun delete(postEntity: PostEntity)
 
     @Query("DELETE FROM post")
     fun deleteAll()
