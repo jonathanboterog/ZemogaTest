@@ -21,6 +21,12 @@ interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArray(arrPostEntity: MutableList<PostEntity>)
 
+    @Query("UPDATE post SET read = :read WHERE id = :postId")
+    fun updateRead(read : Boolean, postId : Int)
+
+    @Query("UPDATE post SET favorites = :favorite WHERE id = :postId")
+    fun updateFavorite(favorite : Boolean, postId : Int)
+
     @Delete
     fun delete(postEntity: PostEntity)
 

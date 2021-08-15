@@ -9,7 +9,6 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.persistence.entity.PostEntity
@@ -25,7 +24,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
         fun onItemClicked(position: Int, post: PostEntity, itemView: View)
     }
 
-    fun adapterListOptionMenu(postList: MutableList<PostEntity>?, context: Context?, callback: AdapterCallback?){
+    fun adapterList(postList: MutableList<PostEntity>?, context: Context?, callback: AdapterCallback?){
         if (postList != null) {
             this.postList = postList
         }
@@ -72,7 +71,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
         fun bind(post: PostEntity, position: Int){
 
-            if(position < 20){
+            if(position < 20 && !post.read){
                 ivIndicator.visibility = VISIBLE
             } else {
                 ivIndicator.visibility = GONE

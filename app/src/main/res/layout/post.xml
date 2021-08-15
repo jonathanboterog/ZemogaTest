@@ -39,8 +39,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:text="@string/app_name"
-            android:textColor="@color/green"
-            android:layout_weight="0.8"/>
+            android:textColor="@color/black"
+            android:layout_weight="0.85"/>
 
         <ImageView
             android:id="@+id/ivFavorite"

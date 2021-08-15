@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentAllBinding
@@ -19,10 +18,7 @@ import com.zemoga.mobiletest.network.restapi.Resource
 import com.zemoga.mobiletest.persistence.DatabaseApp
 import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
-import com.zemoga.mobiletest.ui.vm.AppViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 import javax.inject.Inject
 
 class AllFragment : Fragment(), PostAdapter.AdapterCallback{
@@ -55,18 +51,30 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
                 is Resource.Success -> {
                     binding.progressBar.visibility = INVISIBLE
 
-                    adapter.adapterListOptionMenu(resource.data,
+                    adapter.adapterList(resource.data,
                         requireContext(),
                         this@AllFragment)
 
                     binding.rvPosts.adapter = adapter
+
+                    val btRefresh =  requireActivity().findViewById<ImageView>(R.id.btRefresh)
+                    btRefresh.visibility = VISIBLE
                 }
                 is Resource.Failure -> {
                     binding.progressBar.visibility = INVISIBLE
-                    Snackbar.make(view, getString(R.string.loading_error), Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.make(view, getString(R.string.loading_error), Snackbar.LENGTH_LONG)
                         .setAction(getString(R.string.refresh), null).show()
                 }
             }
+        }
+    }
+
+    override fun onItemClicked(position: Int, post: PostEntity, itemView: View) {
+        val action = TabFragmentDirections
+            .actionPostsFragmentToDescriptionFragment(post.id)
+
+        viewModel.setRead(post.id).observe(viewLifecycleOwner) {
+            findNavController().navigate(action)
         }
     }
 
@@ -74,10 +82,4 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
         super.onDestroyView()
         _binding = null
     }
-
-    override fun onItemClicked(position: Int, post: PostEntity, itemView: View) {
-        Snackbar.make(itemView, "Selected id = ${post.id}", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show()
-    }
-
 }

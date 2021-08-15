@@ -5,9 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "post")
-class PostEntity(
+data class PostEntity(
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "id")
     var id : Int = 0,
 
@@ -22,5 +22,8 @@ class PostEntity(
 
     @ColumnInfo(name = "favorites")
     var favorite : Boolean = false,
+
+    @ColumnInfo(name = "read")
+    var read : Boolean = false,
 
 )
