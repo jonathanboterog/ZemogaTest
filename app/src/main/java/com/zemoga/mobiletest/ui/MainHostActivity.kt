@@ -5,7 +5,9 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.ActivityMainHostBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainHostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainHostBinding

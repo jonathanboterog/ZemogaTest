@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.ui.data
+package com.zemoga.mobiletest.ui.data.model
 
 data class PostModel(
     val id: Int,

@@ -12,22 +12,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.mobiletest.R
-import com.zemoga.mobiletest.ui.data.PostModel
+import com.zemoga.mobiletest.network.restapi.model.Post
 
 class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
-    private var postModel: MutableList<PostModel> = ArrayList()
+    private var postList: List<Post> = ArrayList()
     private lateinit var layoutInflater: LayoutInflater
     private var callback: AdapterCallback? = null
     private var clicked = false
 
     interface AdapterCallback {
-        fun onItemClicked(position: Int, menuModel: PostModel, itemView: View)
+        fun onItemClicked(position: Int, post: Post, itemView: View)
     }
 
-    fun adapterListOptionMenu(menuModel: MutableList<PostModel>?, context: Context?, callback: AdapterCallback?){
-        if (menuModel != null) {
-            this.postModel = menuModel
+    fun adapterListOptionMenu(postList: List<Post>?, context: Context?, callback: AdapterCallback?){
+        if (postList != null) {
+            this.postList = postList
         }
 
         if (callback != null) {
@@ -44,13 +44,13 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return postModel.size
+        return postList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = postModel[position]
+        val post = postList[position]
         val itemView = holder.itemView
-        holder.bind(item)
+        holder.bind(post)
 
         //Avoid multiples clicks over item
         itemView.setOnClickListener {
@@ -60,7 +60,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
                     clicked = false
                 }, 500)
 
-                callback!!.onItemClicked(position, postModel[position], itemView)
+                callback!!.onItemClicked(position, postList[position], itemView)
             }
         }
     }
@@ -70,19 +70,20 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
         private val ivFavorite = view.findViewById(R.id.ivFavorite) as ImageView
         private val tvPost = view.findViewById(R.id.tvPost) as TextView
 
-        fun bind(post: PostModel){
+        fun bind(post: Post){
 
-            if(post.indicator)
-                ivIndicator.visibility = VISIBLE
-            else
-                ivIndicator.visibility = INVISIBLE
-
-            if(post.favorite)
-                ivFavorite.visibility = VISIBLE
-            else
-                ivFavorite.visibility = INVISIBLE
-
-            tvPost.text = post.text
+//            if(post.indicator)
+//                ivIndicator.visibility = VISIBLE
+//            else
+//                ivIndicator.visibility = INVISIBLE
+//
+//            if(post.favorite)
+//                ivFavorite.visibility = VISIBLE
+//            else
+//                ivFavorite.visibility = INVISIBLE
+//
+//            tvPost.text = post.text
+            tvPost.text = post.body
         }
     }
 }

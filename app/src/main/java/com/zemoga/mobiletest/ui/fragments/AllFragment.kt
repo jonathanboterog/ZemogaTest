@@ -3,14 +3,19 @@ package com.zemoga.mobiletest.ui.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentAllBinding
+import com.zemoga.mobiletest.network.restapi.Resource
+import com.zemoga.mobiletest.network.restapi.model.Post
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
-import com.zemoga.mobiletest.ui.data.PostModel
+import com.zemoga.mobiletest.ui.vm.AppViewModel
 
 class AllFragment : Fragment(), PostAdapter.AdapterCallback{
 
@@ -18,6 +23,7 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
     private val binding get() = _binding!!
 
     private val adapter : PostAdapter = PostAdapter()
+    private val viewModel by activityViewModels<AppViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,81 +35,30 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRecyclerView()
-        setUpObserver()
-    }
 
-    private fun setUpRecyclerView() {
         binding.rvPosts.layoutManager = LinearLayoutManager(requireContext() )
-    }
 
-    private fun setUpObserver() {
+        viewModel.getPosts().observe(viewLifecycleOwner) { resource ->
+            when(resource){
+                Resource.Loading -> {
+                    binding.progressBar.visibility = VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = INVISIBLE
 
-        val list : MutableList<PostModel> = mutableListOf()
+                    adapter.adapterListOptionMenu(resource.data,
+                        requireContext(),
+                        this@AllFragment)
 
-        list.add(PostModel(
-            id = 1,
-            text = "Texto de prueba",
-            indicator = true,
-            favorite = true)
-        )
-
-        list.add(PostModel(
-            id = 2,
-            text = "Texto de prueba con texto mas largo. Texto de prueba con texto mas largo. Texto de prueba con texto mas largo. Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.",
-            indicator = true,
-            favorite = true)
-        )
-
-        list.add(PostModel(
-            id = 3,
-            text = "Texto de prueba con texto mas largo. Texto de prueba con texto mas largo. Texto de prueba con texto mas largo. Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.",
-            indicator = true,
-            favorite = false)
-        )
-
-
-        list.add(PostModel(
-            id = 4,
-            text = "Texto de prueba",
-            indicator = true,
-            favorite = true)
-        )
-
-        list.add(PostModel(
-            id = 5,
-            text = "Texto de prueba con texto mas largo. Texto de prueba con texto mas largo. Texto de prueba con texto mas largo. Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo." +
-                    "Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.Texto de prueba con texto mas largo.",
-            indicator = true,
-            favorite = false)
-        )
-
-
-        list.add(PostModel(
-            id = 6,
-            text = "Texto de prueba",
-            indicator = true,
-            favorite = true)
-        )
-
-
-        list.add(PostModel(
-            id = 1,
-            text = "Texto de prueba",
-            indicator = true,
-            favorite = true)
-        )
-
-        adapter.adapterListOptionMenu(list, requireContext(), this@AllFragment)
-        binding.rvPosts.adapter = adapter
+                    binding.rvPosts.adapter = adapter
+                }
+                is Resource.Failure -> {
+                    binding.progressBar.visibility = INVISIBLE
+                    Snackbar.make(view, getString(R.string.loading_error), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.refresh), null).show()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -111,8 +66,9 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
         _binding = null
     }
 
-    override fun onItemClicked(position: Int, menuModel: PostModel, itemView: View) {
-        Snackbar.make(itemView, "Selected id = ${menuModel.id}", Snackbar.LENGTH_LONG)
+    override fun onItemClicked(position: Int, post: Post, itemView: View) {
+        Snackbar.make(itemView, "Selected id = ${post.id}", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
     }
+
 }

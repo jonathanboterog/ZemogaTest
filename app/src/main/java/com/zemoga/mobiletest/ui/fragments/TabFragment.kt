@@ -12,7 +12,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentTabBinding
 import com.zemoga.mobiletest.ui.adapter.ViewPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabFragment : Fragment() {
 
     private var _binding: FragmentTabBinding? = null

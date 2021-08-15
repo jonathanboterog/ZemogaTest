@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:contentDescription="@string/content_description"
-            android:padding="10dp"
+            android:padding="17dp"
             android:src="@drawable/ic_indicator"
             android:layout_weight="0.1"/>
 
