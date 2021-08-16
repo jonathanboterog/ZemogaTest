@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +14,13 @@ import com.zemoga.mobiletest.ui.listener.IOnBackPressed
 import com.zemoga.mobiletest.ui.listener.IOnFavoritePressed
 import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 
-class DescriptionFragment : Fragment(), IOnBackPressed, IOnFavoritePressed {
+class DescriptionFragment : BaseFragment(), IOnBackPressed, IOnFavoritePressed {
 
     private var _binding: FragmentDescriptionBinding? = null
     private val binding get() = _binding!!
     private var postId : Int = 0
     private val viewModel by activityViewModels<AppViewModel>()
     private val adapter : CommentAdapter = CommentAdapter()
-    private val btFavorite : ImageView by lazy {
-        requireActivity().findViewById(R.id.btFavorite)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +41,9 @@ class DescriptionFragment : Fragment(), IOnBackPressed, IOnFavoritePressed {
         binding.rvComments.layoutManager = LinearLayoutManager(requireContext() )
 
         //Hide title & show back button
-        val title =  requireActivity().findViewById<TextView>(R.id.tvTitle)
-        val btBack =  requireActivity().findViewById<ImageView>(R.id.btBack)
-        val btRefresh =  requireActivity().findViewById<ImageView>(R.id.btRefresh)
-
-        title.text = ""
-        btBack.visibility = View.VISIBLE
-        btRefresh.visibility = View.GONE
-        btFavorite.visibility = View.VISIBLE
+        toolbarTitle.text = ""
+        toolbarBackButton.visibility = View.VISIBLE
+        toolbarRefreshButton.visibility = View.GONE
 
         viewModel.getPostDescription(postId).observe(viewLifecycleOwner) { description ->
 
@@ -69,9 +58,10 @@ class DescriptionFragment : Fragment(), IOnBackPressed, IOnFavoritePressed {
             binding.tvWebsite.text = description.userEntity.website
 
             if(description.postEntity.favorite)
-                btFavorite.setImageResource(R.drawable.ic_favorite)
+                toolbarFavoriteButton.setImageResource(R.drawable.ic_favorite)
             else
-                btFavorite.setImageResource(R.drawable.ic_set_favorite)
+                toolbarFavoriteButton.setImageResource(R.drawable.ic_set_favorite)
+            toolbarFavoriteButton.visibility = View.VISIBLE
 
             adapter.adapterList(description.commentListEntity,
                 requireContext(),
@@ -89,9 +79,9 @@ class DescriptionFragment : Fragment(), IOnBackPressed, IOnFavoritePressed {
     override fun onFavoritePressed() {
         viewModel.setFavorite(postId).observe(viewLifecycleOwner) { state ->
             if(state){
-                btFavorite.setImageResource(R.drawable.ic_favorite)
+                toolbarFavoriteButton.setImageResource(R.drawable.ic_favorite)
             } else {
-                btFavorite.setImageResource(R.drawable.ic_set_favorite)
+                toolbarFavoriteButton.setImageResource(R.drawable.ic_set_favorite)
             }
         }
     }

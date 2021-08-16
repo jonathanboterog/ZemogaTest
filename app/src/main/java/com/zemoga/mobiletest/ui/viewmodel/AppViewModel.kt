@@ -11,6 +11,10 @@ import javax.inject.Inject
 @HiltViewModel
 class AppViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
+    fun requestServiceApi() = liveData(Dispatchers.IO) {
+        emit(repository.requestServiceApi())
+    }
+
     fun getPosts() = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         try {
@@ -24,7 +28,7 @@ class AppViewModel @Inject constructor(private val repository: Repository) : Vie
         emit(repository.getPostDescription(postId))
     }
 
-    fun refreshPosts() = liveData(Dispatchers.IO) {
+    fun deleteDatabaseRegister() = liveData(Dispatchers.IO) {
         emit(repository.deleteDatabaseRegister())
     }
 
@@ -34,5 +38,14 @@ class AppViewModel @Inject constructor(private val repository: Repository) : Vie
 
     fun setFavorite(postId : Int) = liveData(Dispatchers.IO) {
         emit(repository.setFavorite(postId))
+    }
+
+    fun getFavoritesPost() = liveData(Dispatchers.IO) {
+        emit(Resource.Loading)
+        try {
+            emit(repository.getFavoritesPost())
+        } catch (e : Exception) {
+            emit(Resource.Failure(e))
+        }
     }
 }

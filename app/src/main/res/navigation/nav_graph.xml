@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tabFragment">
+    app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/tabFragment"
         android:name="com.zemoga.mobiletest.ui.fragments.TabFragment"
@@ -25,5 +25,16 @@
             android:name="postId"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.zemoga.mobiletest.ui.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_tabFragment"
+            app:destination="@id/tabFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

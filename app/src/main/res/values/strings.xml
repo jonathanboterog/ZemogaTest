@@ -19,5 +19,6 @@
     <string name="phone">Phone</string>
     <string name="website">Website</string>
     <string name="comments">COMMENTS</string>
+    <string name="post_removed">Posts removed!</string>
 
 </resources>

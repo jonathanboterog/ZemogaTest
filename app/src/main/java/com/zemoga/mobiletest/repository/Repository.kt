@@ -16,7 +16,21 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
         private val TAG = Repository::class.java.simpleName
     }
 
-    override suspend fun getPostListServiceApi(): Resource {
+    override suspend fun requestServiceApi() : Boolean{
+        if(databaseApp.postDao().getNumRows() <= 0){
+            val resultPost = getPostListServiceApi()
+            val resultUser = getUserListServiceApi()
+            val resultComment = getCommentListServiceApi()
+
+            return resultPost is Resource.Success &&
+                    resultUser is Resource.Success &&
+                    resultComment is Resource.Success
+        } else {
+            return true
+        }
+    }
+
+    override suspend fun getPostListServiceApi(): Resource<MutableList<PostEntity>> {
         try {
             val result = RetrofitClient.apiService.getPosts()
             Log.d(TAG, "getPosts result = $result")
@@ -24,6 +38,7 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
             return if (result.isSuccessful) {
                 val postList = result.body()
                 if (postList != null) {
+                    databaseApp.postDao().deleteAll()
                     for (post in postList) {
                         databaseApp.postDao().insert(
                             PostEntity(
@@ -53,14 +68,15 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
         }
     }
 
-    override suspend fun getUserListServiceApi(){
+    override suspend fun getUserListServiceApi() : Resource<MutableList<UserEntity>>{
         try {
             val result = RetrofitClient.apiService.getUsers()
             Log.d(TAG, "getUsers result = $result")
 
-            if (result.isSuccessful) {
+            return if (result.isSuccessful) {
                 val userList = result.body()
                 if (userList != null) {
+                    databaseApp.userDao().deleteAll()
                     for (user in userList) {
                         databaseApp.userDao().insert(
                             UserEntity(
@@ -73,25 +89,30 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
                         )
                     }
                     Log.d(TAG, "UserList apiService OK")
+                    Resource.Success(databaseApp.userDao().getAll())
                 } else {
                     Log.d(TAG, "UserList apiService result body is null")
+                    Resource.Failure(Exception("body is null"))
                 }
             } else {
                 Log.d(TAG, "UserList apiService result no successful")
+                Resource.Failure(Exception("No successful request"))
             }
         } catch (e: Exception) {
             Log.d(TAG, "UserList apiService exception: $e")
+            return Resource.Failure(e)
         }
     }
 
-    override suspend fun getCommentListServiceApi() {
+    override suspend fun getCommentListServiceApi(): Resource<MutableList<CommentEntity>> {
         try {
             val result = RetrofitClient.apiService.getComments()
             Log.d(TAG, "getComments result = $result")
 
-            if (result.isSuccessful) {
+            return if (result.isSuccessful) {
                 val commentList = result.body()
                 if (commentList != null) {
+                    databaseApp.commentDao().deleteAll()
                     for (comment in commentList) {
                         databaseApp.commentDao().insert(
                             CommentEntity(
@@ -104,28 +125,23 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
                         )
                     }
                     Log.d(TAG, "CommentList apiService OK")
+                    Resource.Success(databaseApp.commentDao().getAll())
                 } else {
                     Log.d(TAG, "CommentList apiService result body is null")
+                    Resource.Failure(Exception("body is null"))
                 }
             } else {
                 Log.d(TAG, "CommentList apiService result no successful")
+                Resource.Failure(Exception("No successful request"))
             }
         } catch (e: Exception) {
             Log.d(TAG, "CommentList apiService exception: $e")
+            return Resource.Failure(e)
         }
     }
 
-    override suspend fun getPostList(): Resource {
-        return if(databaseApp.postDao().getNumRows() == 0){
-            getUserListServiceApi()
-            getCommentListServiceApi()
-            getPostListServiceApi()
-        } else {
-
-            Resource.Success(databaseApp.postDao().getAll().also{
-                Log.d(TAG, "Database query $it")
-            })
-        }
+    override suspend fun getPostList(): Resource<MutableList<PostEntity>> {
+        return Resource.Success(databaseApp.postDao().getAll())
     }
 
     override suspend fun getPostDescription(postId : Int) : DescriptionModel {
@@ -153,5 +169,11 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
         val postEntity = databaseApp.postDao().getById(postId)
         databaseApp.postDao().updateFavorite(!postEntity.favorite, postId)
         return !postEntity.favorite
+    }
+
+    override suspend fun getFavoritesPost() : Resource<MutableList<PostEntity>>{
+        return Resource.Success(databaseApp.postDao().getAllFavorites().also{
+            Log.d(TAG, "Database query $it")
+        })
     }
 }

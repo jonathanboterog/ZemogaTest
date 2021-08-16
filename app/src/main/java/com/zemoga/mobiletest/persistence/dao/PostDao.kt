@@ -9,8 +9,11 @@ interface PostDao {
     @Query("SELECT COUNT() FROM post")
     fun getNumRows(): Int
 
-    @Query("SELECT * FROM post")
+    @Query("SELECT * FROM post ORDER BY read ASC")
     fun getAll(): MutableList<PostEntity>
+
+    @Query("SELECT * FROM post WHERE favorites = 1")
+    fun getAllFavorites(): MutableList<PostEntity>
 
     @Query("SELECT * FROM post WHERE id = :id")
     fun getById(id : Int): PostEntity

@@ -6,8 +6,6 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,18 +13,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentAllBinding
 import com.zemoga.mobiletest.network.restapi.Resource
-import com.zemoga.mobiletest.persistence.DatabaseApp
 import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
+import com.zemoga.mobiletest.ui.listener.IOnRefreshPressed
 import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
-import javax.inject.Inject
 
-class AllFragment : Fragment(), PostAdapter.AdapterCallback{
+class AllFragment : BaseFragment(), PostAdapter.AdapterCallback, IOnRefreshPressed{
 
     private var _binding: FragmentAllBinding? = null
     private val binding get() = _binding!!
-    @Inject
-    lateinit var databaseApp: DatabaseApp
     private val adapter : PostAdapter = PostAdapter()
     private val viewModel by activityViewModels<AppViewModel>()
 
@@ -56,9 +51,7 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
                         this@AllFragment)
 
                     binding.rvPosts.adapter = adapter
-
-                    val btRefresh =  requireActivity().findViewById<ImageView>(R.id.btRefresh)
-                    btRefresh.visibility = VISIBLE
+                    toolbarRefreshButton.visibility = VISIBLE
                 }
                 is Resource.Failure -> {
                     binding.progressBar.visibility = INVISIBLE
@@ -79,7 +72,13 @@ class AllFragment : Fragment(), PostAdapter.AdapterCallback{
     }
 
     override fun onDestroyView() {
+        binding.rvPosts.adapter = null
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onRefreshPressed() {
+        binding.progressBar.visibility = VISIBLE
+    }
+
 }

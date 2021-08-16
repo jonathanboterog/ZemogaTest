@@ -33,6 +33,10 @@
         <item name="android:textColorHint">@android:color/black</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_rounded_bg</item>
+    </style>
+
     <style name="Theme.MobileTest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MobileTest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

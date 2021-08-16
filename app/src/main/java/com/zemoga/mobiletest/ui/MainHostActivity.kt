@@ -8,6 +8,7 @@ import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.ActivityMainHostBinding
 import com.zemoga.mobiletest.persistence.DatabaseApp
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
+import com.zemoga.mobiletest.ui.listener.IOnDeleteAllPost
 import com.zemoga.mobiletest.ui.listener.IOnFavoritePressed
 import com.zemoga.mobiletest.ui.listener.IOnRefreshPressed
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,9 +33,8 @@ class MainHostActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        binding.fab.setOnClickListener {
+            onDeleteAllPost()
         }
 
         val backButton =  findViewById<ImageView>(R.id.btBack)
@@ -74,5 +74,12 @@ class MainHostActivity : AppCompatActivity() {
         val fragment = navHostFragment?.childFragmentManager?.fragments!![0]
 
         (fragment as? IOnFavoritePressed)?.onFavoritePressed()
+    }
+
+    private fun onDeleteAllPost() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment = navHostFragment?.childFragmentManager?.fragments!![0]
+
+        (fragment as? IOnDeleteAllPost)?.onDeleteAllPost()
     }
 }
