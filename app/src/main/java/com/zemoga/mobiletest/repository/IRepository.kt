@@ -14,7 +14,8 @@ interface IRepository {
 
     suspend fun getPostList(): Resource<MutableList<PostEntity>>
     suspend fun getPostDescription(postId : Int): DescriptionModel
-    suspend fun deleteDatabaseRegister()
+    suspend fun deletePost(postEntity: PostEntity)
+    suspend fun deleteAllPost()
     suspend fun setRead(postId: Int)
     suspend fun setFavorite(postId: Int) : Boolean
     suspend fun getFavoritesPost(): Resource<MutableList<PostEntity>>

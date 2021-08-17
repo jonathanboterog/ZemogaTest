@@ -7,7 +7,8 @@
     <fragment
         android:id="@+id/tabFragment"
         android:name="com.zemoga.mobiletest.ui.fragments.TabFragment"
-        android:label="TabFragment" >
+        android:label="fragment_tab"
+        tools:layout="@layout/fragment_tab" >
         <action
             android:id="@+id/action_postsFragment_to_descriptionFragment"
             app:destination="@id/descriptionFragment"
@@ -34,6 +35,7 @@
         <action
             android:id="@+id/action_splashFragment_to_tabFragment"
             app:destination="@id/tabFragment"
+            app:launchSingleTop="false"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>

@@ -1,5 +1,5 @@
 package com.zemoga.mobiletest.ui.listener
 
 interface IOnFavoritePressed {
-    fun onFavoritePressed()
+    fun favoritePressed()
 }

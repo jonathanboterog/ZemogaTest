@@ -13,6 +13,7 @@ import com.zemoga.mobiletest.databinding.FragmentFavoritesBinding
 import com.zemoga.mobiletest.network.restapi.Resource
 import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
+import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
 import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 
@@ -33,6 +34,27 @@ class FavoritesFragment : BaseFragment() , PostAdapter.AdapterCallback, IOnBackP
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpRecyclerView()
+    }
+
+    override fun onItemClicked(position: Int, post: PostEntity, itemView: View) {
+        val action = TabFragmentDirections
+            .actionPostsFragmentToDescriptionFragment(post.id)
+        findNavController().navigate(action)
+    }
+
+    override fun backPressed(): Boolean {
+        findNavController().navigateUp()
+        return true
+    }
+
+    override fun onDestroyView() {
+        binding.rvFavorites.adapter = null
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setUpRecyclerView(){
 
         binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext() )
 
@@ -54,27 +76,14 @@ class FavoritesFragment : BaseFragment() , PostAdapter.AdapterCallback, IOnBackP
                 }
                 is Resource.Failure -> {
                     binding.pbFavorites.visibility = View.INVISIBLE
-                    Snackbar.make(view, getString(R.string.loading_error), Snackbar.LENGTH_LONG)
-                        .setAction(getString(R.string.refresh), null).show()
+                    Snackbar.make(this@FavoritesFragment.requireView(), getString(R.string.loading_error), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.try_again), null).show()
                 }
             }
         }
     }
 
-    override fun onItemClicked(position: Int, post: PostEntity, itemView: View) {
-        val action = TabFragmentDirections
-            .actionPostsFragmentToDescriptionFragment(post.id)
-        findNavController().navigate(action)
-    }
-
-    override fun onBackPressed(): Boolean {
-        findNavController().navigateUp()
-        return true
-    }
-
-    override fun onDestroyView() {
-        binding.rvFavorites.adapter = null
-        super.onDestroyView()
-        _binding = null
+    fun refreshFavoritesPost() {
+        setUpRecyclerView()
     }
 }

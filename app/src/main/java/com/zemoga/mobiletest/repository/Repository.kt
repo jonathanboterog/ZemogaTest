@@ -17,16 +17,16 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
     }
 
     override suspend fun requestServiceApi() : Boolean{
-        if(databaseApp.postDao().getNumRows() <= 0){
+        return if(databaseApp.postDao().getNumRows() <= 0){
             val resultPost = getPostListServiceApi()
             val resultUser = getUserListServiceApi()
             val resultComment = getCommentListServiceApi()
 
-            return resultPost is Resource.Success &&
+            resultPost is Resource.Success &&
                     resultUser is Resource.Success &&
                     resultComment is Resource.Success
         } else {
-            return true
+            true
         }
     }
 
@@ -155,7 +155,11 @@ class Repository @Inject constructor(private val databaseApp: DatabaseApp) : IRe
         )
     }
 
-    override suspend fun deleteDatabaseRegister() {
+    override suspend fun deletePost(postEntity: PostEntity){
+        databaseApp.postDao().delete(postEntity)
+    }
+
+    override suspend fun deleteAllPost() {
         databaseApp.postDao().deleteAll()
         databaseApp.userDao().deleteAll()
         databaseApp.commentDao().deleteAll()

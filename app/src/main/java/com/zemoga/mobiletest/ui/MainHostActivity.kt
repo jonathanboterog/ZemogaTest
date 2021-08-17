@@ -1,24 +1,28 @@
 package com.zemoga.mobiletest.ui
 
 import android.os.Bundle
+import android.view.View.VISIBLE
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.ActivityMainHostBinding
-import com.zemoga.mobiletest.persistence.DatabaseApp
+import com.zemoga.mobiletest.ui.fragments.AllFragment
+import com.zemoga.mobiletest.ui.fragments.FavoritesFragment
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
 import com.zemoga.mobiletest.ui.listener.IOnDeleteAllPost
 import com.zemoga.mobiletest.ui.listener.IOnFavoritePressed
-import com.zemoga.mobiletest.ui.listener.IOnRefreshPressed
+import com.zemoga.mobiletest.ui.listener.IOnRefreshPostPressed
+import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
-class MainHostActivity : AppCompatActivity() {
+class MainHostActivity : AppCompatActivity() , AllFragment.IRefreshFragment{
 
     private lateinit var binding: ActivityMainHostBinding
-    @Inject lateinit var databaseApp: DatabaseApp
+    val viewModel: AppViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +41,17 @@ class MainHostActivity : AppCompatActivity() {
             onDeleteAllPost()
         }
 
-        val backButton =  findViewById<ImageView>(R.id.btBack)
+        val backButton = binding.incActionbar.btBack
         backButton.setOnClickListener {
             onBackPressed()
         }
 
-        val refreshButton =  findViewById<ImageView>(R.id.btRefresh)
+        val refreshButton = binding.incActionbar.btRefresh
         refreshButton.setOnClickListener {
             onRefreshPressed()
         }
 
-        val favoriteButton =  findViewById<ImageView>(R.id.btFavorite)
+        val favoriteButton = binding.incActionbar.btFavorite
         favoriteButton.setOnClickListener {
             onFavoritePressed()
         }
@@ -57,7 +61,7 @@ class MainHostActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val fragment = navHostFragment?.childFragmentManager?.fragments!![0]
 
-        (fragment as? IOnBackPressed)?.onBackPressed() ?: run {
+        (fragment as? IOnBackPressed)?.backPressed() ?: run {
             super.onBackPressed()
         }
     }
@@ -66,20 +70,25 @@ class MainHostActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val fragment = navHostFragment?.childFragmentManager?.fragments!![0]
 
-        (fragment as? IOnRefreshPressed)?.onRefreshPressed()
+        (fragment as? IOnRefreshPostPressed)?.refreshPostPressed()
     }
 
     private fun onFavoritePressed() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val fragment = navHostFragment?.childFragmentManager?.fragments!![0]
 
-        (fragment as? IOnFavoritePressed)?.onFavoritePressed()
+        (fragment as? IOnFavoritePressed)?.favoritePressed()
     }
 
     private fun onDeleteAllPost() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val fragment = navHostFragment?.childFragmentManager?.fragments!![0]
 
-        (fragment as? IOnDeleteAllPost)?.onDeleteAllPost()
+        (fragment as? IOnDeleteAllPost)?.deleteAllPost()
+    }
+
+    override fun refreshFavorites() {
+        val fragment = supportFragmentManager.findFragmentByTag("f1") as FavoritesFragment?
+        fragment?.refreshFavoritesPost()
     }
 }

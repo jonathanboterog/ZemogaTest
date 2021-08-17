@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentDescriptionBinding
 import com.zemoga.mobiletest.ui.adapter.CommentAdapter
+import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
 import com.zemoga.mobiletest.ui.listener.IOnFavoritePressed
 import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
@@ -71,12 +72,12 @@ class DescriptionFragment : BaseFragment(), IOnBackPressed, IOnFavoritePressed {
         }
     }
 
-    override fun onBackPressed(): Boolean {
+    override fun backPressed(): Boolean {
         findNavController().popBackStack(R.id.tabFragment, false)
         return true
     }
 
-    override fun onFavoritePressed() {
+    override fun favoritePressed() {
         viewModel.setFavorite(postId).observe(viewLifecycleOwner) { state ->
             if(state){
                 toolbarFavoriteButton.setImageResource(R.drawable.ic_favorite)

@@ -12,18 +12,23 @@ import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentTabBinding
 import com.zemoga.mobiletest.ui.adapter.ViewPagerAdapter
 import com.zemoga.mobiletest.ui.dialog.GeneralDialog
+import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
 import com.zemoga.mobiletest.ui.listener.IOnDeleteAllPost
-import com.zemoga.mobiletest.ui.listener.IOnRefreshPressed
+import com.zemoga.mobiletest.ui.listener.IOnRefreshPostPressed
 import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TabFragment : BaseFragment() , IOnRefreshPressed , IOnDeleteAllPost{
+class TabFragment : BaseFragment() , IOnRefreshPostPressed , IOnDeleteAllPost{
 
     private var _binding: FragmentTabBinding? = null
     private val binding get() = _binding!!
     private val adapter by lazy { ViewPagerAdapter(requireActivity()) }
     private val viewModel by activityViewModels<AppViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +46,14 @@ class TabFragment : BaseFragment() , IOnRefreshPressed , IOnDeleteAllPost{
         toolbarBackButton.visibility = GONE
         toolbarRefreshButton.visibility = VISIBLE
         toolbarFavoriteButton.visibility = INVISIBLE
+        fab.visibility = VISIBLE
 
         //Set tabs
         val tabLayout = binding.tabLayout
         val viewPager = binding.viewPager
         viewPager.adapter = adapter
         viewPager.isSaveEnabled = false
+
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when(position){
                 0 -> tab.text = getString(R.string.all)
@@ -55,22 +62,22 @@ class TabFragment : BaseFragment() , IOnRefreshPressed , IOnDeleteAllPost{
         }.attach()
     }
 
-    override fun onRefreshPressed() {
-        viewModel.deleteDatabaseRegister().observe(viewLifecycleOwner) {
+    override fun refreshPostPressed() {
+        viewModel.deleteAllPost().observe(viewLifecycleOwner) {
             findNavController().popBackStack()
             findNavController().navigate(R.id.splashFragment)
         }
     }
 
-    override fun onDeleteAllPost() {
-        viewModel.deleteDatabaseRegister().observe(viewLifecycleOwner) {
+    override fun deleteAllPost() {
+        viewModel.deleteAllPost().observe(viewLifecycleOwner) {
             findNavController().popBackStack()
             findNavController().navigate(R.id.tabFragment)
 
             val generalDialog = GeneralDialog()
             generalDialog.show(requireContext(),
-                getString(R.string.post_removed),
-                "deleted.json", 3000)
+                getString(R.string.posts_removed),
+                "deleted.json", 2000)
         }
     }
 

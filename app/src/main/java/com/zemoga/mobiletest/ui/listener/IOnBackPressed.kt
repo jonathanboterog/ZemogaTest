@@ -1,5 +1,5 @@
 package com.zemoga.mobiletest.ui.listener
 
 interface IOnBackPressed {
-    fun onBackPressed(): Boolean
+    fun backPressed(): Boolean
 }
