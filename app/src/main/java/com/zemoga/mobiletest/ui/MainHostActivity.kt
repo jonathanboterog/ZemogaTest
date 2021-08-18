@@ -1,12 +1,11 @@
 package com.zemoga.mobiletest.ui
 
 import android.os.Bundle
-import android.view.View.VISIBLE
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.ActivityMainHostBinding
+import com.zemoga.mobiletest.persistence.DatabaseApp
 import com.zemoga.mobiletest.ui.fragments.AllFragment
 import com.zemoga.mobiletest.ui.fragments.FavoritesFragment
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
@@ -23,6 +22,7 @@ class MainHostActivity : AppCompatActivity() , AllFragment.IRefreshFragment{
 
     private lateinit var binding: ActivityMainHostBinding
     val viewModel: AppViewModel by viewModels()
+    @Inject lateinit var databaseApp: DatabaseApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

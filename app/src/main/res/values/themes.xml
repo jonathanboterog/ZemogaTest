@@ -17,11 +17,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.MobileTest.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="SplashTheme" parent="Theme.MobileTest">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
@@ -37,7 +32,4 @@
         <item name="android:windowBackground">@drawable/dialog_rounded_bg</item>
     </style>
 
-    <style name="Theme.MobileTest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.MobileTest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

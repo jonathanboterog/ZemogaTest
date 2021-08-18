@@ -26,10 +26,6 @@ class TabFragment : BaseFragment() , IOnRefreshPostPressed , IOnDeleteAllPost{
     private val adapter by lazy { ViewPagerAdapter(requireActivity()) }
     private val viewModel by activityViewModels<AppViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
