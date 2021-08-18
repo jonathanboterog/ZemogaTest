@@ -121,7 +121,7 @@ Application functionalities
 12. Cache all posts
 	-	I have decided to use Room because:
 		> is a lightweight android native solution. I have checked some internet blogs.
-		> https://medium.com/@farhanarnob/room-or-realm-database-for-android-2134773c1fa4v
+		> https://medium.com/@farhanarnob/room-or-realm-database-for-android-2134773c1fa4
 	
 13. Add animations when the user deletes each/all posts
 	-	I have used Lottie library.
@@ -140,7 +140,7 @@ I have added gradle configuration to build release apk with code optimization.
 Keep rule was added into proguard file because a problem with restApi data classes.
 
 here you can download the release apk version: 
-![here|apk/com.zemoga.mobiletest-v1(1.0)-release.apk]
+[com.zemoga.mobiletest-v1(1.0)-release.apk](apk/com.zemoga.mobiletest-v1(1.0)-release.apk)
 
 Thanks
 ======
