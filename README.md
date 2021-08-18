@@ -79,7 +79,7 @@ Application functionalities
 
 1. Load the posts from the JSON API and populate the sidebar: 
 	-   Application uses retrofit2 to connect with API.
-	-   Result of operation is returned to viewModel using 'Resource' sealed class
+	-   Result of operation is returned to repository using 'Resource' sealed class
 	-	If all information is success downloaded, data is saved into local database.
 	-	database Post registers are displayed into 'AllFragment'
 
@@ -133,3 +133,8 @@ Application functionalities
 	-	:( I'm studing recently about unit testing. No implemented yet.
 
 
+Thanks
+======
+
+Thanks for reading the documentation and check the application. Any feedback on the application is welcome.  
+I want to learn and improve my skills :)
