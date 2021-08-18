@@ -133,6 +133,15 @@ Application functionalities
 	-	:( I'm studing recently about unit testing. No implemented yet.
 
 
+Debug & Release compilation
+===========================
+
+I have added gradle configuration to build release apk with code optimization. 
+Keep rule was added into proguard file because a problem with restApi data classes.
+
+here you can download the release apk version: 
+![com.zemoga.mobiletest-v1(1.0)-release.apk](apk/com.zemoga.mobiletest-v1(1.0)-release.apk)
+
 Thanks
 ======
 
