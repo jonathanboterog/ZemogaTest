@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object RoomModule {
 
     @Singleton
     @Provides
@@ -26,4 +26,17 @@ object AppModule {
     )
         .fallbackToDestructiveMigration()
         .build()
+
+    @Singleton
+    @Provides
+    fun providePostDao(databaseApp : DatabaseApp) = databaseApp.postDao()
+
+    @Singleton
+    @Provides
+    fun provideUserDao(databaseApp : DatabaseApp) = databaseApp.userDao()
+
+    @Singleton
+    @Provides
+    fun provideCommentDao(databaseApp : DatabaseApp) = databaseApp.commentDao()
+
 }

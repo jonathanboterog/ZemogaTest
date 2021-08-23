@@ -6,7 +6,7 @@
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/tabFragment"
-        android:name="com.zemoga.mobiletest.ui.fragments.TabFragment"
+        android:name="com.zemoga.mobiletest.ui.fragments.tab.TabFragment"
         android:label="fragment_tab"
         tools:layout="@layout/fragment_tab" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/descriptionFragment"
-        android:name="com.zemoga.mobiletest.ui.fragments.DescriptionFragment"
+        android:name="com.zemoga.mobiletest.ui.fragments.description.DescriptionFragment"
         android:label="fragment_description"
         tools:layout="@layout/fragment_description" >
         <argument
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.zemoga.mobiletest.ui.fragments.SplashFragment"
+        android:name="com.zemoga.mobiletest.ui.fragments.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action

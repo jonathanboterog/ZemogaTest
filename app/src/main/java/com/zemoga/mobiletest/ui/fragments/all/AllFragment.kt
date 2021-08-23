@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.ui.fragments
+package com.zemoga.mobiletest.ui.fragments.all
 
 import android.content.Context
 import android.os.Bundle
@@ -16,19 +16,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentAllBinding
-import com.zemoga.mobiletest.network.restapi.Resource
 import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
 import com.zemoga.mobiletest.ui.dialog.GeneralDialog
 import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
-import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
+import com.zemoga.mobiletest.ui.fragments.tab.TabFragmentDirections
+import com.zemoga.mobiletest.util.Resource
 
 class AllFragment : BaseFragment(), PostAdapter.AdapterCallback{
 
     private var _binding: FragmentAllBinding? = null
     private val binding get() = _binding!!
     private val adapter : PostAdapter = PostAdapter()
-    private val viewModel by activityViewModels<AppViewModel>()
+    private val viewModel by activityViewModels<AllViewModel>()
     private var postList :MutableList<PostEntity> = mutableListOf()
     var event : IRefreshFragment? = null
 

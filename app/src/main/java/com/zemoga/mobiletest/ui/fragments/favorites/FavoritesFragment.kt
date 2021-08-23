@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.ui.fragments
+package com.zemoga.mobiletest.ui.fragments.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentFavoritesBinding
-import com.zemoga.mobiletest.network.restapi.Resource
 import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.ui.adapter.PostAdapter
 import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
+import com.zemoga.mobiletest.ui.fragments.tab.TabFragmentDirections
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
-import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
+import com.zemoga.mobiletest.util.Resource
 
 class FavoritesFragment : BaseFragment() , PostAdapter.AdapterCallback, IOnBackPressed{
 
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<AppViewModel>()
+    private val viewModel by activityViewModels<FavoritesViewModel>()
     private val adapter : PostAdapter = PostAdapter()
 
     override fun onCreateView(

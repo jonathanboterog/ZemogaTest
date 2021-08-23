@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.ui.fragments
+package com.zemoga.mobiletest.ui.fragments.description
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,14 +13,13 @@ import com.zemoga.mobiletest.ui.adapter.CommentAdapter
 import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
 import com.zemoga.mobiletest.ui.listener.IOnBackPressed
 import com.zemoga.mobiletest.ui.listener.IOnFavoritePressed
-import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 
 class DescriptionFragment : BaseFragment(), IOnBackPressed, IOnFavoritePressed {
 
     private var _binding: FragmentDescriptionBinding? = null
     private val binding get() = _binding!!
     private var postId : Int = 0
-    private val viewModel by activityViewModels<AppViewModel>()
+    private val viewModel by activityViewModels<DescriptionViewModel>()
     private val adapter : CommentAdapter = CommentAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {

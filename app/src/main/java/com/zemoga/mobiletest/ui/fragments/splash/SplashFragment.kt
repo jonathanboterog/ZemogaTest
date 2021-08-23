@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.ui.fragments
+package com.zemoga.mobiletest.ui.fragments.splash
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +10,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.zemoga.mobiletest.R
 import com.zemoga.mobiletest.databinding.FragmentSplashBinding
 import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
-import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 
 class SplashFragment : BaseFragment() {
 
     private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<AppViewModel>()
+    private val viewModel by activityViewModels<SplashViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

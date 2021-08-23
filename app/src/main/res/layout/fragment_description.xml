@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/TextViewTheme"
-    tools:context=".ui.fragments.DescriptionFragment"
+    tools:context=".ui.fragments.description.DescriptionFragment"
     android:orientation="vertical">
 
     <TextView

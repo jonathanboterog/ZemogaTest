@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.network.restapi
+package com.zemoga.mobiletest.util
 
 sealed class Resource<out T> {
     object Loading: Resource<Nothing>()

@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.ui.fragments
+package com.zemoga.mobiletest.ui.fragments.tab
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,6 @@ import com.zemoga.mobiletest.ui.dialog.GeneralDialog
 import com.zemoga.mobiletest.ui.fragments.base.BaseFragment
 import com.zemoga.mobiletest.ui.listener.IOnDeleteAllPost
 import com.zemoga.mobiletest.ui.listener.IOnRefreshPostPressed
-import com.zemoga.mobiletest.ui.viewmodel.AppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +23,7 @@ class TabFragment : BaseFragment() , IOnRefreshPostPressed , IOnDeleteAllPost{
     private var _binding: FragmentTabBinding? = null
     private val binding get() = _binding!!
     private val adapter by lazy { ViewPagerAdapter(requireActivity()) }
-    private val viewModel by activityViewModels<AppViewModel>()
+    private val viewModel by activityViewModels<TabViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,14 +58,14 @@ class TabFragment : BaseFragment() , IOnRefreshPostPressed , IOnDeleteAllPost{
     }
 
     override fun refreshPostPressed() {
-        viewModel.deleteAllPost().observe(viewLifecycleOwner) {
+        viewModel.deleteAll().observe(viewLifecycleOwner) {
             findNavController().popBackStack()
             findNavController().navigate(R.id.splashFragment)
         }
     }
 
     override fun deleteAllPost() {
-        viewModel.deleteAllPost().observe(viewLifecycleOwner) {
+        viewModel.deleteAll().observe(viewLifecycleOwner) {
             findNavController().popBackStack()
             findNavController().navigate(R.id.tabFragment)
 
