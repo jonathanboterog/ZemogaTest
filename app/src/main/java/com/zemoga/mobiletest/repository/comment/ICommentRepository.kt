@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.repository.commentdao
+package com.zemoga.mobiletest.repository.comment
 
 import com.zemoga.mobiletest.persistence.entity.CommentEntity
 

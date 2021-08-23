@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.repository.userdao
+package com.zemoga.mobiletest.repository.user
 
 import android.util.Log
 import com.zemoga.mobiletest.persistence.dao.UserDao

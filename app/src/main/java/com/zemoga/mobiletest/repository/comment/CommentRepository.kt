@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.repository.commentdao
+package com.zemoga.mobiletest.repository.comment
 
 import android.util.Log
 import com.zemoga.mobiletest.persistence.dao.CommentDao

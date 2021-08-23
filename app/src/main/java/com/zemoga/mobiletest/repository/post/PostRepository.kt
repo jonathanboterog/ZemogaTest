@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.repository.postdao
+package com.zemoga.mobiletest.repository.post
 
 import android.util.Log
 import com.zemoga.mobiletest.persistence.dao.PostDao

@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.repository.postdao
+package com.zemoga.mobiletest.repository.post
 
 import com.zemoga.mobiletest.persistence.entity.PostEntity
 import com.zemoga.mobiletest.util.Resource

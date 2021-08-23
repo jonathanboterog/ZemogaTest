@@ -1,4 +1,4 @@
-package com.zemoga.mobiletest.repository.userdao
+package com.zemoga.mobiletest.repository.user
 
 import com.zemoga.mobiletest.persistence.entity.UserEntity
 
