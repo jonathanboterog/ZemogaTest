@@ -1,0 +1,31 @@
+@startuml
+title Bluetooth UI Settings SDK Command
+
+Actor User
+box "Third Party App" #def2e7
+participant Button
+participant BluetoothUiSettings #d8e4fa
+participant ValidateLoginUseCase #d8e4fa
+end box
+box "SmartPOS App" #LightBlue
+participant BluetoothSettingsActivity
+end box
+
+
+User -> Button : click on
+activate Button
+Button -> BluetoothUiSettings : launch(context)
+activate BluetoothUiSettings
+BluetoothUiSettings -> ValidateLoginUseCase : isValidLogin()
+activate ValidateLoginUseCase
+ref over ValidateLoginUseCase
+  This can be on
+  the login validation docs
+end ref
+BluetoothUiSettings <-- ValidateLoginUseCase : boolean
+deactivate ValidateLoginUseCase
+alt authenticated
+	BluetoothUiSettings -> BluetoothSettingsActivity : startActivity(BLUETOOTH_UI_SETTINGS_DEEPLINK)
+end
+
+@enduml
